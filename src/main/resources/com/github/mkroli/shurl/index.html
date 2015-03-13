@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="shurl">
 <head>
-<title>Is less -linking</title>
+<title>Instant-light.lInking</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
@@ -11,25 +11,26 @@
 </head>
 <body>
 	<div class="container">
-		<h1>i-l.li: is less - linking</h1>
+		<h1>I-l.lI</h1>
+        <h2>Instant-light.lInking</h2>
 		<div ng-view></div>
 	</div>
 
 	<script type="text/ng-template" id="main.html">
 		<form role="form">
 			<div class="form-group" ng-class="{'has-error': linkHasError}">
-				<label class="control-label" for="link">URL:</label> <input
+				<label class="control-label" for="link">Target:</label> <input
 					type="url" class="form-control" id="link" ng-model="link">
 			</div>
 			<div class="form-group" ng-class="{'has-error': nameHasError}">
-				<label class="control-label" for="name">Name:</label> <input
+				<label class="control-label" for="name">Name(optional):</label> <input
 					type="text" class="form-control" id="name" ng-model="name">
 			</div>
 			<div ng-show="shortened">
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="control-label">LESS linked:</label>
+							<label class="control-label">Instant light link:</label>
 							<a disabled href="{{shortened}}" class="form-control">{{shortened}}</a>
 						</div>
 					</div>
@@ -42,7 +43,7 @@
 				</div>
 			</div>
 			<button type="button" class="btn btn-default"
-				ng-click="shorten(link, name)">LESS Link</button>
+				ng-click="shorten(link, name)">Lighten!</button>
 		</form>
 	</script>
 
