@@ -1,4 +1,4 @@
-FROM dockerfile/java:openjdk-8-jre
+FROM java:8-jre
 MAINTAINER https://m-ko-x.de Markus Kosmal <code@m-ko-x.de>
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
