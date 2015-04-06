@@ -11,12 +11,17 @@
 </head>
 <body>
 	<div class="container">
-		<h1>I-l.lI</h1>
-        <h2>Instant-light.lInking</h2>
+		<div class="row">
+			<div class="col-lg-4">
+				<h1>I-l.lI</h1>
+			</div>
+			<div class="col-lg-8">
+        		<h2>Instant-light.lInking</h2>
+			</div>
 		<div ng-view></div>
 	</div>
 
-	<script type="text/ng-template" id="main.html">
+	<script type="text/ng-template" id="threshold.html">
 		<form role="form">
 			<div class="form-group" ng-class="{'has-error': linkHasError}">
 				<label class="control-label" for="link">Target:</label> <input
@@ -47,7 +52,7 @@
 		</form>
 	</script>
 
-	<script type="text/ng-template" id="stats.html">
+	<script type="text/ng-template" id="class.html">
 		<div ng-hide="noGraphs">
 			<h2>Last 24 hours</h2>
 			<canvas id="last24HoursChart" width="600" height="150"></canvas>

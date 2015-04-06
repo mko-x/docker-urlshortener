@@ -1,19 +1,27 @@
 /*
- * Copyright 2014 Michael Krolikowski
+ * The MIT License (MIT)
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (c) 2015 m-ko-x.de Markus Kosmal
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-package com.github.mkroli.shurl
+package de.mko.web.lightlink
 
 import java.net.URL
 import java.util.Date
@@ -53,14 +61,14 @@ trait DatabaseComponent {
   lazy val cluster = {
     val cluster = (Cluster.builder /: cassandraSeeds)(_ addContactPoint _).build.connect
     cluster.execute("""
-      CREATE KEYSPACE IF NOT EXISTS shurl WITH replication = {
+      CREATE KEYSPACE IF NOT EXISTS lightlink WITH replication = {
         'class': 'SimpleStrategy',
         'replication_factor': 1
       }
     """)
 
     cluster.execute("""
-      CREATE COLUMNFAMILY IF NOT EXISTS shurl.urls (
+      CREATE COLUMNFAMILY IF NOT EXISTS lightlink.urls (
         id text,
         url text,
         PRIMARY KEY (id)
@@ -68,7 +76,7 @@ trait DatabaseComponent {
     """)
 
     cluster.execute("""
-      CREATE COLUMNFAMILY IF NOT EXISTS shurl.visits (
+      CREATE COLUMNFAMILY IF NOT EXISTS lightlink.visits (
         id text,
         time timestamp,
         visits counter,
@@ -84,11 +92,11 @@ trait DatabaseComponent {
 
     val fetchQuery = cluster.prepare(
       q.select("url")
-        .from("shurl", "urls")
+        .from("lightlink", "urls")
         .where(q.eq("id", q.bindMarker)))
 
     val visitQuery = cluster.prepare(
-      q.update("shurl", "visits")
+      q.update("lightlink", "visits")
         .`with`(q.incr("visits"))
         .where(q.eq("id", q.bindMarker))
         .and(q.eq("time", q.bindMarker))
@@ -96,12 +104,12 @@ trait DatabaseComponent {
 
     val fetchVisitsQuery = cluster.prepare(
       q.select("time", "visits")
-        .from("shurl", "visits")
+        .from("lightlink", "visits")
         .where(q.eq("id", q.bindMarker))
         .and(q.gt("time", DateTime.now.withMillisOfHour(0).minusDays(30).date)))
 
     val storeQuery = cluster.prepare(
-      q.insertInto("shurl", "urls")
+      q.insertInto("lightlink", "urls")
         .ifNotExists
         .value("id", q.bindMarker)
         .value("url", q.bindMarker))
