@@ -24,31 +24,31 @@
 	<script type="text/ng-template" id="threshold.html">
 		<form role="form">
 			<div class="form-group" ng-class="{'has-error': linkHasError}">
-				<label class="control-label" for="link">Target:</label> <input
+				<label class="control-label" for="link">&gt;&gt;&gt;:</label> <input
 					type="url" class="form-control" id="link" ng-model="link">
 			</div>
 			<div class="form-group" ng-class="{'has-error': nameHasError}">
-				<label class="control-label" for="name">Name(optional):</label> <input
+				<label class="control-label" for="name">(opt.) name:</label> <input
 					type="text" class="form-control" id="name" ng-model="name">
 			</div>
 			<div ng-show="shortened">
 				<div class="row">
 					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="control-label">Instant light link:</label>
+							<label class="control-label">Lightweight link:</label>
 							<a disabled href="{{shortened}}" class="form-control">{{shortened}}</a>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
-							<label class="control-label">Statistics:</label>
+							<label class="control-label">stats:</label>
 							<a disabled href="{{shortenedStats}}" class="form-control">{{shortenedStats}}</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<button type="button" class="btn btn-default"
-				ng-click="shorten(link, name)">Lighten!</button>
+				ng-click="shorten(link, name)">&gt;&gt;&lt;&lt;</button>
 		</form>
 	</script>
 
