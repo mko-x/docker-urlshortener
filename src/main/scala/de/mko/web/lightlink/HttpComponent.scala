@@ -55,7 +55,7 @@ trait HttpComponent {
 
   val httpBindAddress = "0.0.0.0"
 
-  val httpBindPort = 8080
+  val httpBindPort = scala.util.Properties.envOrElse("APP_PORT", "8080" )
 
   lazy val httpActor = actorSystem.actorOf(Props(new HttpActor))
 

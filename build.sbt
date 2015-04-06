@@ -23,7 +23,7 @@
  
 name := "lightlink"
 
-organization := "de.mko.web.shorten"
+organization := "de.mko.web.lightlink"
 
 version := "1.0"
 
@@ -58,7 +58,7 @@ unmanagedClasspath in Runtime <+= baseDirectory map { base =>
 
 packSettings
 
-packMain := Map("lightlink" -> "de.mko.web.shorten.Boot")
+packMain := Map("lightlink" -> "de.mko.web.lightlink.Boot")
 
 packJvmOpts := Map("lightlink" -> Seq("-Dlogback.configurationFile=${PROG_HOME}/etc/logback.xml"))
 

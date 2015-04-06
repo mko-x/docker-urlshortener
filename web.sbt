@@ -25,7 +25,7 @@ jsSettings
 
 sourceDirectory in (Compile, JsKeys.js) <<= (sourceDirectory in Compile)(_ / "javascript")
 includeFilter in (Compile, JsKeys.js) := "*.jsm"
-resourceManaged in (Compile, JsKeys.js) <<= (resourceManaged in Compile)(_ / "de" / "mko" / "web" / "shorten")
+resourceManaged in (Compile, JsKeys.js) <<= (resourceManaged in Compile)(_ / "de" / "mko" / "web" / "lightlink")
 resourceGenerators in Compile <+= (JsKeys.js in Compile)
 compile in Compile <<= compile in Compile dependsOn (JsKeys.js in Compile)
 
@@ -42,7 +42,7 @@ sourceDirectories in (Compile, LessKeys.less) <<= (sourceDirectory in Compile, w
   Seq(srcDir / "less", wrb)
 }
 
-resourceManaged in (Compile, LessKeys.less) <<= (resourceManaged in Compile)(_ / "de" / "mko" / "web" / "shorten")
+resourceManaged in (Compile, LessKeys.less) <<= (resourceManaged in Compile)(_ / "de" / "mko" / "web" / "lightlink")
 resourceGenerators in Compile <+= (LessKeys.less in Compile)
 
 LessKeys.less in Compile <<= LessKeys.less in Compile dependsOn (resolveWebResources in Compile)

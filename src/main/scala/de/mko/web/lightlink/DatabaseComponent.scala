@@ -63,7 +63,7 @@ trait DatabaseComponent {
     cluster.execute("""
       CREATE KEYSPACE IF NOT EXISTS lightlink WITH replication = {
         'class': 'SimpleStrategy',
-        'replication_factor': 1
+        'replication_factor': 2
       }
     """)
 
