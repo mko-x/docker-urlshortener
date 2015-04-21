@@ -55,7 +55,7 @@ trait HttpComponent {
 
   val httpBindAddress = "0.0.0.0"
 
-  val httpBindPort = scala.util.Properties.envOrElse("APP_PORT", "8080" )
+  val httpBindPort = scala.util.Properties.envOrElse("APP_PORT", 8080 ).toInt
 
   lazy val httpActor = actorSystem.actorOf(Props(new HttpActor))
 
@@ -69,7 +69,7 @@ trait HttpComponent {
     IO(Http)(actorSystem) ! Http.Bind(
       httpActor,
       interface = httpBindAddress,
-      port = httpBindPort.toInt)
+      port = httpBindPort)
 
     implicit def exceptionHandler = ExceptionHandler {
       case UrlNotFoundException => ctx => ctx.complete(StatusCodes.NotFound, "")
