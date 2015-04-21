@@ -32,7 +32,7 @@ import com.typesafe.scalalogging.StrictLogging
 
 object Boot extends App with StrictLogging {
   TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
-  Locale.setDefault(Locale.DE)
+  Locale.setDefault(Locale.US)
 
   val applicationContext = new AnyRef with AkkaComponent with HttpComponent with DatabaseComponent with ConfigurationComponent {
     override def cassandraSeeds = config.getStringList("cassandra.seeds").asScala.toList
