@@ -69,7 +69,7 @@ trait HttpComponent {
     IO(Http)(actorSystem) ! Http.Bind(
       httpActor,
       interface = httpBindAddress,
-      port = httpBindPort)
+      port = httpBindPort.toInt)
 
     implicit def exceptionHandler = ExceptionHandler {
       case UrlNotFoundException => ctx => ctx.complete(StatusCodes.NotFound, "")
