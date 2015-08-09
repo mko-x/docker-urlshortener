@@ -21,6 +21,6 @@ RUN rm /etc/nginx/conf.d/*
 
 ADD conf/dockercfg.php /scripts/
 ADD conf/polr.conf /etc/nginx/conf.d/
-ADD run.sh /
+ADD script/bootstrap.sh /
 
-CMD bash /run.sh
+CMD bash /bootstrap.sh
