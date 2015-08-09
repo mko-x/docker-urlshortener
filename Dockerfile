@@ -15,7 +15,7 @@ ENV PRIVATE false
 
 RUN apt-get update -y -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
-    php5-cli php5-fpm php5-mysqlnd php5-mcrypt git
+    php5-cli php5-fpm php5-mysqlnd php5-mcrypt git nano
     
 RUN rm /etc/nginx/conf.d/*
 
