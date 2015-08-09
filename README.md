@@ -1,31 +1,24 @@
 # docker-urlshortener
-Shorten urls using cassandra database.
+## Quickstart
 
-#Installation
+```bash
+docker run -d -e MYSQL_ROOT_PASSWORD=something -e MYSQL_USER=someusername -e MYSQL_PASSWORD=somepassword -e MYSQL_DATABASE=somedbname --name shortiedb mysql
 
-##Cassandra
+docker run -d -e ADMIN_EMAIL=admin@polr.me -e ADMIN_USER=admin -e ADMIN_PASSWORD=letmein -e APP_NAME=TestingPolr -e APP_URL=localhost -e REG_TYPE=free --link shortiedb:mysql mkodockx/docker-urlshortener
 ```
-docker run -d --name cassandra mkodockx/docker-cassandra
-```
-Have a look at [i-l.li/shortdock](http://i-l.li/shortdock)
 
-##UrlShortener
-```
-docker run --name shurl -d --link cassandra:cassandra -p 80:8080 mkodockx/docker-urlshortener
-```
-#Database configuration
-
-##Cassandra
-
-ShUrl will use the Keyspace with the name "shurl".
-If it doesn't exist yet it will be created with the following settings:
-```
-CREATE KEYSPACE IF NOT EXISTS shurl WITH replication = {
-  'class': 'SimpleStrategy',
-  'replication_factor': 1
-}
-```
-In any non-testing environment the Keyspace should probably be pre-created.
-
-##More info
-Based on work by [Michael Krolikowski](https://github.com/mkroli)
+## Options
+* DB_HOST - The MySQL host to use (default: uses the 'mysql' link)
+* DB_USER - The MySQL username (default: uses the 'mysql' link)
+* DB_PASS - The MySQL password (default: uses the 'mysql' link)
+* DB_DATABASE - The MySQL database (default: uses the 'mysql' link)
+* APP_URL - The domain name of the app. The docker image currently doesn't support subdirectories (default: polr.me)
+* APP_NAME - The name of the app (default: Polr)
+* SETUP_PASSWORD - The password to access /setup.php (default: none - setup.php is disabled)
+* REG_TYPE - The registration type. Can be 'none' (No Registration) or 'free' (Open Registration)
+* IP_METHOD - The PHP code to determine a user's IP (default: $_SERVER['REMOTE_ADDR'])
+* PRIVATE - Requires users to be logged in to shorten links. Can be 'true' or 'false' (default: false)
+* THEME - The URL of the CSS file for a Bootstrap theme to style Polr. See bootswatch.com for some themes (default: none, default theme)
+* ADMIN_USER - The username of the administrative user (default: admin)
+* ADMIN_PASSWORD - The password of the administrative user (default: secret)
+* ADMIN_EMAIL - The email of the administrative user (default: admin@example.tld)

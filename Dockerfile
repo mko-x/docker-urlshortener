@@ -1,26 +1,26 @@
-FROM java:8-jre
+FROM nginx:latest
 MAINTAINER https://m-ko-x.de Markus Kosmal <code@m-ko-x.de>
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV JAVA_PERM_SIZE 256m
+# Env var defaulting
+ENV DB_HOST mysql
+ENV APP_URL localhost
+ENV APP_NAME Polr
+ENV REG_TYPE none
+ENV ADMIN_USER admin
+ENV ADMIN_PASSWORD voll_geheim_ey
+ENV ADMIN_EMAIL admin@example.tld
+ENV SETUP_PASSWORD none
+ENV IP_METHOD \$_SERVER['REMOTE_ADDR']
+ENV PRIVATE false
 
-ENV TYPESAFE_SBT_VERSION 0.13.8
+RUN apt-get update -y -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+    php5-cli php5-fpm php5-mysqlnd php5-mcrypt git
+    
+RUN rm /etc/nginx/conf.d/*
 
-ENV APP_NAME lightlink
-ENV APP_PORT 8080
+ADD conf/dockercfg.php /scripts/
+ADD conf/polr.conf /etc/nginx/conf.d/
+ADD run.sh /
 
-ADD build.sbt /tmp/${APP_NAME}/build.sbt
-ADD web.sbt /tmp/${APP_NAME}/web.sbt
-ADD project/plugins.sbt /tmp/${APP_NAME}/project/plugins.sbt
-ADD src /tmp/${APP_NAME}/src
-
-WORKDIR /tmp/${APP_NAME}
-RUN wget http://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/${TYPESAFE_SBT_VERSION}/sbt-launch.jar -O sbt.jar 
-RUN java -XX:MaxPermSize=${JAVA_PERM_SIZE} -jar sbt.jar packArchive
-RUN mkdir -p /opt/${APP_NAME} && \
-    tar --strip-components=1 -C /opt/${APP_NAME} -xzf /tmp/${APP_NAME}/target/${APP_NAME}*.tar.gz && \
-    rm -rf /root/.ivy /root/.sbt /tmp/${APP_NAME}
-
-WORKDIR /opt/${APP_NAME}
-EXPOSE $APP_PORT
-ENTRYPOINT JVM_OPT=-Dcassandra.seeds.0=${CASSANDRA_PORT_9042_TCP_ADDR} /opt/${APP_NAME}/bin/${APP_NAME}
+CMD bash /run.sh
